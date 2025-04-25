@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { TranscribeAudioComponent } from './transcribe-audio/transcribe-audio.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  standalone: true,
+  imports: [TranscribeAudioComponent], // Import the standalone component
+  template: `
+    <h1>Welcome to the Audio Transcription App</h1>
+    <app-transcribe-audio></app-transcribe-audio>
+  `,
+  styles: [],
 })
-export class AppComponent {
-  title = 'frontend';
-}
+export class AppComponent {}

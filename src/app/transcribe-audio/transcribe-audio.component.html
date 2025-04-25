@@ -1,0 +1,27 @@
+<div class="container">
+    <h1>Audio Transcription</h1>
+  
+    <div>
+      <label for="language-select">Select Language:</label>
+      <select id="language-select" [(ngModel)]="selectedLanguage">
+        <option value="auto-AI">Auto</option>
+        <option value="en-US">English</option>
+        <option value="tl-PH">Tagalog</option>
+        <option value="taglish">Taglish</option>
+      </select>
+    </div>
+  
+    <div>
+      <label for="audio-upload">Upload Audio File:</label>
+      <input type="file" id="audio-upload" accept="audio/*" (change)="onFileSelected($event)" />
+    </div>
+  
+    <button (click)="transcribe()" [disabled]="isLoading">
+      {{ isLoading ? 'Transcribing...' : 'Transcribe' }}
+    </button>
+  
+    <div *ngIf="transcript">
+      <h2>Transcript:</h2>
+      <p>{{ transcript }}</p>
+    </div>
+  </div>
