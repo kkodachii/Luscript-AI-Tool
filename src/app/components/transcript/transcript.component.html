@@ -1,0 +1,33 @@
+<div class="text-center mx-auto">
+  <!-- Placeholder Icon -->
+  <div *ngIf="!transcript; else content">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="300"
+      height="300"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#e2e8f0"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="mx-auto mb-4"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+      <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+      <path d="M9 17h6" />
+      <path d="M9 13h6" />
+    </svg>
+    <p class="text-lg font-medium text-gray-500">Your transcription will appear here</p>
+  </div>
+
+  <!-- Transcript Content -->
+  <ng-template #content>
+    <div
+      class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-y-auto max-h-[calc(80vh)] p-10 text-left"
+    >
+      <p class="text-gray-700 whitespace-pre-wrap break-words">{{ transcript }}</p>
+    </div>
+  </ng-template>
+</div>

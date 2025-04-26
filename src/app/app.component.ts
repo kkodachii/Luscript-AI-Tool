@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { TranscribeAudioComponent } from './transcribe-audio/transcribe-audio.component';
+import { HeaderComponent } from './components/header/header.component';
+import { UploadLanguageComponent } from './components/upload-language/upload-language.component';
+import { TranscriptComponent } from './components/transcript/transcript.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [TranscribeAudioComponent], // Import the standalone component
-  template: `
-    <h1>Welcome to the Audio Transcription App</h1>
-    <app-transcribe-audio></app-transcribe-audio>
-  `,
-  styles: [],
+  imports: [HeaderComponent, UploadLanguageComponent,TranscriptComponent ],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {}
