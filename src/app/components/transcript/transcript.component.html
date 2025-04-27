@@ -1,6 +1,6 @@
-<div class="text-center mx-auto">
+<div class="w-full h-full flex flex-col items-center justify-center p-4">
   <!-- Placeholder Icon -->
-  <div *ngIf="!transcript; else content">
+  <div *ngIf="!transcript; else content" class="flex flex-col items-center justify-center">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="300"
@@ -24,10 +24,10 @@
 
   <!-- Transcript Content -->
   <ng-template #content>
-    <div
-      class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-y-auto max-h-[calc(80vh)] p-10 text-left"
-    >
-      <p class="text-gray-700 whitespace-pre-wrap break-words">{{ transcript }}</p>
+    <div class="w-full max-w-4xl h-[80vh] bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+      <div class="overflow-y-auto p-6 flex-1">
+        <p class="text-gray-700 whitespace-pre-wrap break-words">{{ transcript }}</p>
+      </div>
     </div>
   </ng-template>
 </div>
