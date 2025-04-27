@@ -11,13 +11,15 @@ import { CommonModule } from '@angular/common';
 })
 export class TranscriptComponent implements OnInit {
   transcript: string = '';
+  words: string[] = [];
 
-  constructor(private transcriptionService: TranscriptionService) {}
+  constructor(public transcriptionService: TranscriptionService) {}
 
   ngOnInit(): void {
     // Subscribe to the transcript observable
     this.transcriptionService.transcript$.subscribe((newTranscript) => {
       this.transcript = newTranscript;
+      this.words = newTranscript.split(/\s+/);
     });
   }
 }

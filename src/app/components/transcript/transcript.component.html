@@ -33,7 +33,20 @@
   <ng-template #content>
     <div class="w-full h-full bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col">
       <div class="overflow-y-auto flex-1 p-8">
-        <p class="text-gray-800 text-lg leading-relaxed whitespace-pre-wrap break-words">{{ transcript }}</p>
+        <p class="text-gray-800 text-lg leading-relaxed whitespace-pre-wrap break-words">
+          <ng-container *ngFor="let word of words; let i = index">
+            <span
+              [class.bg-indigo-100]="i === transcriptionService.getCurrentWord()"
+              [class.text-indigo-600]="i === transcriptionService.getCurrentWord()"
+              [class.bg-gray-100]="transcriptionService.isWordSpoken(i) && i !== transcriptionService.getCurrentWord()"
+              [class.text-gray-600]="transcriptionService.isWordSpoken(i) && i !== transcriptionService.getCurrentWord()"
+              class="transition-colors duration-200"
+            >
+              {{ word }}
+            </span>
+            <span>&nbsp;</span>
+          </ng-container>
+        </p>
       </div>
     </div>
   </ng-template>
