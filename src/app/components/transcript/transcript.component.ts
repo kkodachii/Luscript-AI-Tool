@@ -6,7 +6,6 @@ import * as FileSaver from 'file-saver';
 import * as docx from 'docx';
 import pdfMake from 'pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { SplitByHighlightPipe } from '../../pipes/split-by-highlight.pipe';
 
 // Initialize pdfMake with virtual file system for fonts
 const pdfMakeInstance = pdfMake;
@@ -17,7 +16,7 @@ const pdfMakeInstance = pdfMake;
   templateUrl: './transcript.component.html',
   styleUrls: ['./transcript.component.css'], // Optional: Add styles if needed
   standalone: true,
-  imports:[CommonModule, MatSnackBarModule, SplitByHighlightPipe]
+  imports:[CommonModule, MatSnackBarModule, ]
 })
 export class TranscriptComponent implements OnInit {
   transcript: string = '';
