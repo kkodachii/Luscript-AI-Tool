@@ -28,19 +28,19 @@ export class GeminiService {
         let languagePrompt = '';
         switch (languageCode) {
           case 'auto-AI':
-            languagePrompt = 'Generate a transcript of the speech.';
+            languagePrompt = 'Generate a transcript of the speech. show only the transcript, no other text. add (Inaudible speech) when the speaker is not speaking clearly.';
             break;
           case 'en-US':
-            languagePrompt = 'Generate a transcript of the speech in English.';
+            languagePrompt = 'Generate a transcript of the speech in English.show only the transcript, no other text. add (Inaudible speech) when the speaker is not speaking clearly.';
             break;
           case 'tl-PH':
-            languagePrompt = 'Generate a transcript of the speech in Tagalog.';
+            languagePrompt = 'Generate a transcript of the speech in Tagalog. show only the transcript, no other text. add (Inaudible speech) when the speaker is not speaking clearly.';
             break;
           case 'taglish':
-            languagePrompt = 'Generate a transcript of the speech in Taglish (a mix of Tagalog and English).';
+            languagePrompt = 'Generate a transcript of the speech in Taglish (a mix of Tagalog and English). show only the transcript, no other text. add (Inaudible speech) when the speaker is not speaking clearly.';
             break;
           default:
-            languagePrompt = 'Generate a transcript of the speech.';
+            languagePrompt = 'Generate a transcript of the speech. show only the transcript, no other text. add (Inaudible speech) when the speaker is not speaking clearly.';
         }
 
         // Ensure the mimeType is set correctly for audio files
