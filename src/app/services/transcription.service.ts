@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class TranscriptionService {
   private transcriptSubject = new BehaviorSubject<string>('');
   private currentTimeSubject = new BehaviorSubject<number>(0);
+  private highlightedTextSubject = new BehaviorSubject<{text: string, startIndex: number, endIndex: number}>({ text: '', startIndex: 0, endIndex: 0 });
   private words: string[] = [];
   private spokenWords: Set<number> = new Set();
   private lastWordIndex: number = -1;
@@ -16,6 +17,7 @@ export class TranscriptionService {
 
   transcript$ = this.transcriptSubject.asObservable();
   currentTime$ = this.currentTimeSubject.asObservable();
+  highlightedText$ = this.highlightedTextSubject.asObservable();
 
   updateTranscript(transcript: string): void {
     this.transcriptSubject.next(transcript);
@@ -83,5 +85,13 @@ export class TranscriptionService {
   resetSpokenWords(): void {
     this.spokenWords.clear();
     this.lastWordIndex = -1;
+  }
+
+  setHighlightedText(text: string, startIndex: number, endIndex: number): void {
+    this.highlightedTextSubject.next({ text, startIndex, endIndex });
+  }
+
+  clearHighlightedText(): void {
+    this.highlightedTextSubject.next({ text: '', startIndex: 0, endIndex: 0 });
   }
 }

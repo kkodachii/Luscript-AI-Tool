@@ -1,0 +1,8 @@
+.success-snackbar {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.success-snackbar .mat-simple-snackbar-action {
+  color: white;
+}

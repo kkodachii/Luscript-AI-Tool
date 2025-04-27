@@ -68,6 +68,20 @@ export class UploadLanguageComponent {
     this.transcriptionService.setAudioDuration(audio.duration);
   }
 
+  seekAudio(event: MouseEvent): void {
+    if (!this.audioPlayer) return;
+    
+    const progressBar = event.currentTarget as HTMLElement;
+    const rect = progressBar.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const percentage = x / rect.width;
+    const newTime = this.duration * percentage;
+    
+    this.audioPlayer.nativeElement.currentTime = newTime;
+    this.currentTime = newTime;
+    this.transcriptionService.updateCurrentTime(newTime);
+  }
+
   formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);

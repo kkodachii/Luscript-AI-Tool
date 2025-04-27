@@ -32,19 +32,82 @@
   <!-- Transcript Content -->
   <ng-template #content>
     <div class="w-full h-full bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col">
+      <!-- Action Buttons -->
+      <div class="flex justify-end gap-2 p-4 border-b border-gray-100">
+        <button 
+          (click)="copyToClipboard()"
+          class="p-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          title="Copy All"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-copy">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+            <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+          </svg>
+        </button>
+        <div class="relative">
+          <button 
+            (click)="toggleDownloadDropdown()"
+            class="p-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            title="Download"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+              <path d="M7 11l5 5l5 -5" />
+              <path d="M12 4l0 12" />
+            </svg>
+          </button>
+          <div 
+            *ngIf="showDownloadDropdown"
+            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-10"
+          >
+            <div class="py-1">
+              <button 
+                (click)="downloadAsText()"
+                class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+              >
+                Text (.txt)
+              </button>
+              <button 
+                (click)="downloadAsDocx()"
+                class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+              >
+                Word (.docx)
+              </button>
+              <button 
+                (click)="downloadAsPdf()"
+                class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+              >
+                PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div class="overflow-y-auto flex-1 p-8">
         <p class="text-gray-800 text-lg leading-relaxed whitespace-pre-wrap break-words">
-          <ng-container *ngFor="let word of words; let i = index">
-            <span
-              [class.bg-indigo-100]="i === transcriptionService.getCurrentWord()"
-              [class.text-indigo-600]="i === transcriptionService.getCurrentWord()"
-              [class.bg-gray-100]="transcriptionService.isWordSpoken(i) && i !== transcriptionService.getCurrentWord()"
-              [class.text-gray-600]="transcriptionService.isWordSpoken(i) && i !== transcriptionService.getCurrentWord()"
-              class="transition-colors duration-200"
-            >
-              {{ word }}
-            </span>
+          <ng-container *ngIf="!highlightedText; else withHighlight">
+            <ng-container *ngFor="let word of words; let i = index">
+              <span
+                [class.bg-indigo-100]="i === transcriptionService.getCurrentWord()"
+                [class.text-indigo-600]="i === transcriptionService.getCurrentWord()"
+                [class.bg-gray-100]="transcriptionService.isWordSpoken(i) && i !== transcriptionService.getCurrentWord()"
+                [class.text-gray-600]="transcriptionService.isWordSpoken(i) && i !== transcriptionService.getCurrentWord()"
+                class="transition-colors duration-200"
+              >
+                {{ word }}
+              </span>
+            </ng-container>
           </ng-container>
+          <ng-template #withHighlight>
+            <ng-container *ngIf="highlightedText">
+              {{ transcript.substring(0, highlightedText.startIndex) }}
+              <span class="bg-yellow-200">{{ transcript.substring(highlightedText.startIndex, highlightedText.endIndex) }}</span>
+              {{ transcript.substring(highlightedText.endIndex) }}
+            </ng-container>
+          </ng-template>
         </p>
       </div>
     </div>

@@ -86,9 +86,9 @@
     </div>
   </div>
 
-  <!-- Uploaded File Display -->
+  <!-- Uploaded File and Audio Player -->
   <div *ngIf="selectedFile" class="mt-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between mb-4">
       <!-- File Name -->
       <div>
         <h4 class="text-sm font-medium text-gray-700 mb-1">Uploaded File:</h4>
@@ -106,12 +106,10 @@
         </svg>
       </button>
     </div>
-  </div>
 
-  <!-- Audio Player -->
-  <div *ngIf="selectedFile" class="mt-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
+    <!-- Audio Player -->
     <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-4 w-full">
         <button
           (click)="togglePlay()"
           class="p-2 rounded-full bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition-colors"
@@ -124,9 +122,20 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </button>
-        <div class="flex-1">
-          <div class="h-1 bg-gray-200 rounded-full">
-            <div class="h-1 bg-indigo-600 rounded-full" [style.width.%]="currentTime / duration * 100"></div>
+        <div class="flex-1 relative group">
+          <div 
+            class="h-1 bg-gray-200 rounded-full cursor-pointer"
+            (click)="seekAudio($event)"
+          >
+            <div 
+              class="h-1 bg-indigo-600 rounded-full relative"
+              [style.width.%]="currentTime / duration * 100"
+            >
+              <div 
+                class="absolute -right-1 -top-1 w-3 h-3 bg-indigo-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                [style.left.%]="currentTime / duration * 100"
+              ></div>
+            </div>
           </div>
         </div>
         <span class="text-sm text-gray-600">{{ formatTime(currentTime) }} / {{ formatTime(duration) }}</span>
