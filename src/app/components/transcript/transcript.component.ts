@@ -2,14 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { TranscriptionService } from '../../services/transcription.service';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import * as FileSaver from 'file-saver';
-import * as docx from 'docx';
-import pdfMake from 'pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-
-// Initialize pdfMake with virtual file system for fonts
-const pdfMakeInstance = pdfMake;
-(pdfMakeInstance as any).vfs = (pdfFonts as any).vfs;
 
 @Component({
   selector: 'app-transcript',
@@ -46,12 +38,16 @@ export class TranscriptComponent implements OnInit {
     this.showDownloadDropdown = !this.showDownloadDropdown;
   }
 
-  downloadAsText() {
+  async downloadAsText() {
+    const FileSaver = await import('file-saver');
     const blob = new Blob([this.transcript], { type: 'text/plain;charset=utf-8' });
     FileSaver.saveAs(blob, 'transcript.txt');
   }
 
   async downloadAsDocx() {
+    const docx = await import('docx');
+    const FileSaver = await import('file-saver');
+    
     const doc = new docx.Document({
       sections: [{
         properties: {},
@@ -69,11 +65,15 @@ export class TranscriptComponent implements OnInit {
     FileSaver.saveAs(buffer, 'transcript.docx');
   }
 
-  downloadAsPdf() {
+  async downloadAsPdf() {
+    const pdfMake = await import('pdfmake/build/pdfmake');
+    const pdfFonts = await import('pdfmake/build/vfs_fonts');
+    (pdfMake as any).vfs = (pdfFonts as any).pdfMake.vfs;
+    
     const docDefinition = {
       content: this.transcript
     };
-    (pdfMakeInstance as any).createPdf(docDefinition).download('transcript.pdf');
+    (pdfMake as any).createPdf(docDefinition).download('transcript.pdf');
   }
 
   copyToClipboard() {
