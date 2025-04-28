@@ -6,3 +6,12 @@
 .success-snackbar .mat-simple-snackbar-action {
   color: white;
 }
+
+.error-snackbar {
+  background-color: #f44336;
+  color: white;
+}
+
+.error-snackbar .mat-simple-snackbar-action {
+  color: white;
+}

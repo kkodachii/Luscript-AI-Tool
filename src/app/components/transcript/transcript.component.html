@@ -45,9 +45,9 @@
             <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
           </svg>
         </button>
-        <div class="relative">
+        <div class="relative" (appClickOutside)="closeDropdown()">
           <button 
-            (click)="toggleDownloadDropdown()"
+            (click)="toggleDownloadDropdown($event)"
             class="p-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             title="Download"
           >
@@ -58,30 +58,63 @@
               <path d="M12 4l0 12" />
             </svg>
           </button>
-          <div 
-            *ngIf="showDownloadDropdown"
-            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-10"
-          >
-            <div class="py-1">
+        </div>
+
+        <!-- Mobile-friendly dropdown -->
+        <div *ngIf="showDownloadDropdown" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center md:hidden" (click)="closeDropdown()">
+          <div class="bg-white rounded-lg w-11/12 max-w-sm" (click)="$event.stopPropagation()">
+            <div class="p-4 border-b border-gray-200">
+              <h3 class="text-lg font-medium text-gray-900">Download Options</h3>
+            </div>
+            <div class="py-3">
               <button 
-                (click)="downloadAsText()"
-                class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                (click)="downloadAsText(); closeDropdown()"
+                class="block w-full px-4 py-3 text-left text-base font-medium text-gray-700 hover:bg-gray-50 border-b border-gray-200"
               >
-                Text (.txt)
+                Download as Text (.txt)
               </button>
               <button 
-                (click)="downloadAsDocx()"
-                class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                (click)="downloadAsDocx(); closeDropdown()"
+                class="block w-full px-4 py-3 text-left text-base font-medium text-gray-700 hover:bg-gray-50 border-b border-gray-200"
               >
-                Word (.docx)
+                Download as Word (.docx)
               </button>
               <button 
-                (click)="downloadAsPdf()"
-                class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                (click)="downloadAsPdf(); closeDropdown()"
+                class="block w-full px-4 py-3 text-left text-base font-medium text-gray-700 hover:bg-gray-50"
               >
-                PDF
+                Download as PDF
               </button>
             </div>
+          </div>
+        </div>
+
+        <!-- Desktop dropdown -->
+        <div 
+          *ngIf="showDownloadDropdown && !isMobile"
+          class="fixed w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50"
+          [style.top]="dropdownPosition.top"
+          [style.left]="dropdownPosition.left"
+        >
+          <div class="py-1">
+            <button 
+              (click)="downloadAsText(); closeDropdown()"
+              class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+            >
+              Text (.txt)
+            </button>
+            <button 
+              (click)="downloadAsDocx(); closeDropdown()"
+              class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+            >
+              Word (.docx)
+            </button>
+            <button 
+              (click)="downloadAsPdf(); closeDropdown()"
+              class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"
+            >
+              PDF
+            </button>
           </div>
         </div>
       </div>
