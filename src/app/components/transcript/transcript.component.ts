@@ -74,30 +74,98 @@ export class TranscriptComponent implements OnInit {
   }
 
   async downloadAsText() {
-    const FileSaver = await import('file-saver');
-    const blob = new Blob([this.transcript], { type: 'text/plain;charset=utf-8' });
-    FileSaver.saveAs(blob, 'transcript.txt');
+    try {
+      const FileSaver = await import('file-saver');
+      const blob = new Blob([this.transcript], { type: 'text/plain;charset=utf-8' });
+      
+      if (this.isMobile) {
+        // For mobile browsers, create a temporary link and trigger download
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'transcript.txt';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } else {
+        // For desktop browsers, use FileSaver
+        FileSaver.saveAs(blob, 'transcript.txt');
+      }
+
+      this.snackBar.open('Text file downloaded successfully', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom',
+        panelClass: ['success-snackbar']
+      });
+    } catch (error) {
+      console.error('Error downloading text:', error);
+      this.snackBar.open('Error downloading text file. Please try again.', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom',
+        panelClass: ['error-snackbar']
+      });
+    }
   }
 
   async downloadAsDocx() {
-    const docx = await import('docx');
-    const FileSaver = await import('file-saver');
-    
-    const doc = new docx.Document({
-      sections: [{
-        properties: {},
-        children: [
-          new docx.Paragraph({
-            children: [
-              new docx.TextRun(this.transcript)
-            ],
-          }),
-        ],
-      }],
-    });
+    try {
+      const docx = await import('docx');
+      const FileSaver = await import('file-saver');
+      
+      const doc = new docx.Document({
+        sections: [{
+          properties: {},
+          children: [
+            new docx.Paragraph({
+              heading: docx.HeadingLevel.HEADING_1,
+              children: [new docx.TextRun('Transcript')],
+            }),
+            new docx.Paragraph({
+              spacing: {
+                after: 200,
+                line: 360,
+              },
+              children: [new docx.TextRun(this.transcript)],
+            }),
+          ],
+        }],
+      });
 
-    const buffer = await docx.Packer.toBlob(doc);
-    FileSaver.saveAs(buffer, 'transcript.docx');
+      const buffer = await docx.Packer.toBlob(doc);
+      
+      if (this.isMobile) {
+        // For mobile browsers, create a temporary link and trigger download
+        const url = window.URL.createObjectURL(buffer);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'transcript.docx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } else {
+        // For desktop browsers, use FileSaver
+        FileSaver.saveAs(buffer, 'transcript.docx');
+      }
+
+      this.snackBar.open('Word document downloaded successfully', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom',
+        panelClass: ['success-snackbar']
+      });
+    } catch (error) {
+      console.error('Error downloading Word document:', error);
+      this.snackBar.open('Error downloading Word document. Please try again.', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'bottom',
+        panelClass: ['error-snackbar']
+      });
+    }
   }
 
   async downloadAsPdf() {
