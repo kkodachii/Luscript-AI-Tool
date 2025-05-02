@@ -23,6 +23,7 @@
     "@ffmpeg/util": "^0.12.2",
     "@spartan-ng/brain": "0.0.1-alpha.447",
     "@spartan-ng/ui-core": "^0.0.1-alpha.380",
+    "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "docx": "^9.4.1",
