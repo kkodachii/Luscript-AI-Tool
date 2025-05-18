@@ -95,6 +95,12 @@ export class UploadLanguageComponent {
     }
 
     this.isLoading = true;
+    // Close the sidebar on mobile
+    const sidebar = document.querySelector('aside');
+    if (sidebar && window.innerWidth < 1024) { // 1024px is the lg breakpoint in Tailwind
+      sidebar.classList.add('-translate-x-full');
+    }
+
     this.geminiService.transcribeLongAudio(this.selectedFile, this.selectedLanguage)
       .then(transcript => {
         this.transcriptionService.updateTranscript(transcript);
