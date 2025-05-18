@@ -139,23 +139,18 @@ export class HeaderComponent {
       if (this.audioBlob) {
         const audioFile = new File([this.audioBlob], 'recording.wav', { type: 'audio/wav' });
         
-        this.geminiService.transcribeAudioInline(audioFile, 'auto-AI').subscribe({
-          next: (response: any) => {
-            let transcript = 'No transcript available.';
-            if (response && response.candidates && response.candidates.length > 0) {
-              transcript = response.candidates[0].content.parts[0].text || transcript;
-            }
+        this.geminiService.transcribeLongAudio(audioFile, 'auto-AI')
+          .then(transcript => {
             this.transcriptionService.updateTranscript(transcript);
             this.isTranscribing = false;
             this.closeModal();
-          },
-          error: (err) => {
+          })
+          .catch(err => {
             console.error('Error during transcription:', err);
             this.transcriptionService.updateTranscript('Transcription failed. Please try again.');
             this.isTranscribing = false;
             this.closeModal();
-          }
-        });
+          });
       } else {
         this.isTranscribing = false;
         this.closeModal();

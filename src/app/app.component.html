@@ -1,4 +1,7 @@
 <div class="flex flex-col h-screen bg-gray-50">
+  <!-- Patch Note -->
+  <app-patch-note></app-patch-note>
+
   <!-- Header -->
   <app-header class="border-b"></app-header>
 
@@ -21,4 +24,15 @@
       <app-transcript class="w-full"></app-transcript>
     </main>
   </div>
+
+  <!-- Progress Modal -->
+  <app-transcription-progress
+    [isVisible]="showProgressModal"
+    [progress]="progress"
+    [currentChunk]="currentChunk"
+    [totalChunks]="totalChunks"
+    [statusMessage]="statusMessage"
+    [isUploading]="isUploading"
+    [uploadProgress]="uploadProgress">
+  </app-transcription-progress>
 </div>

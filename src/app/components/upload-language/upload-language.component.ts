@@ -95,27 +95,16 @@ export class UploadLanguageComponent {
     }
 
     this.isLoading = true;
-    this.geminiService.transcribeAudioInline(this.selectedFile, this.selectedLanguage).subscribe({
-      next: (response: any) => {
-        console.log('Full API Response:', response);
-
-        // Extract the transcript from the response
-        let transcript = 'No transcript available.';
-        if (response && response.candidates && response.candidates.length > 0) {
-          transcript = response.candidates[0].content.parts[0].text || transcript;
-        }
-
-        // Update the transcript in the shared service
+    this.geminiService.transcribeLongAudio(this.selectedFile, this.selectedLanguage)
+      .then(transcript => {
         this.transcriptionService.updateTranscript(transcript);
-
         this.isLoading = false;
-      },
-      error: (err) => {
+      })
+      .catch(err => {
         console.error('Error during transcription:', err);
         this.transcriptionService.updateTranscript('Transcription failed. Please try again.');
         this.isLoading = false;
-      },
-    });
+      });
   }
 
   onButtonClick(): void {
