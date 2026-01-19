@@ -8,7 +8,7 @@ import { TranscriptionService } from '../services/transcription.service';
   providedIn: 'root',
 })
 export class GeminiService {
-  private GEMINI_API_KEY = 'AIzaSyBIaly87RD4LviGrnhPCG9TGBbDLmnte68'; // Replace with your actual API key
+  private GEMINI_API_KEY = 'AIzaSyBKEdCI1jSBW3hcXJ3lZ6RxDIYihC8wmEs'; // Replace with your actual API key
   private GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash:generateContent';
   private MAX_PAYLOAD_SIZE = 300 * 1024 * 1024; // 300MB in bytes
 
